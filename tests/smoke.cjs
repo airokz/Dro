@@ -1,3 +1,5 @@
+// Copyright 2026 airokz and contributors
+// SPDX-License-Identifier: Apache-2.0
 // Uses an existing Playwright installation and system Chrome; no server required.
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright-core');
 const assert = require('node:assert/strict');

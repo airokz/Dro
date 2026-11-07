@@ -1,3 +1,5 @@
+// Copyright 2026 airokz and contributors
+// SPDX-License-Identifier: Apache-2.0
 // Mouse-driven regression tests for persistent, arbitrary perimeter anchors.
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright-core');
 const assert = require('node:assert/strict');

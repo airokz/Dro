@@ -1,3 +1,5 @@
+// Copyright 2026 airokz and contributors
+// SPDX-License-Identifier: Apache-2.0
 // Regression coverage for selecting and independently reconnecting arrow ends.
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright-core');
 const assert = require('node:assert/strict');

@@ -1,8 +1,10 @@
 <!doctype html>
+<!-- Copyright 2026 airokz and contributors. SPDX-License-Identifier: Apache-2.0. Full license below. -->
+
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dro — local whiteboard</title>
 <link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2218%22%20fill%3D%22%235956df%22%2F%3E%3Cpath%20d%3D%22M20%2018h11c20%200%2020%2028%200%2028H20%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%2F%3E%3Crect%20x%3D%2213%22%20y%3D%2211%22%20width%3D%2214%22%20height%3D%2214%22%20rx%3D%224%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2246%22%20r%3D%227%22%20fill%3D%22%23a7f3d0%22%2F%3E%3C%2Fsvg%3E">
 <meta name="theme-color" content="#5956df"><style>
-:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#233047;background:#f7f8fb;font-size:14px}*{box-sizing:border-box}body{margin:0;overflow:hidden}button,input,select{font:inherit}button{cursor:pointer;border:0;background:transparent;color:inherit;border-radius:9px;padding:9px 12px;white-space:nowrap}button:hover{background:#f0f2f7}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a5b4fc;outline-offset:2px}button.active{background:#e9eaff;color:#4f46e5}button:disabled{opacity:.35;cursor:default}.topbar{height:72px;position:absolute;inset:0 0 auto;display:flex;align-items:center;padding:0 24px;background:#fff;border-bottom:1px solid #e5e9ef;gap:16px;z-index:2}.brand{display:flex;align-items:center;gap:10px;font-weight:750;font-size:20px;letter-spacing:-.6px}.logo{width:36px;height:36px;flex:none;display:block}.logo svg{display:block;width:100%;height:100%}.document{border-left:1px solid #e4e7ed;padding-left:20px;flex:1;min-width:80px}.document input{width:min(260px,100%);border:0;font-weight:600;color:#344054;padding:3px;background:transparent;outline:none}.status{font-size:11px;color:#8992a3;padding:3px}.actions{display:flex;gap:4px}.primary{background:#5956df;color:#fff}.primary:hover{background:#4844c9}.toolbar{position:absolute;top:92px;left:50%;transform:translateX(-50%);display:flex;gap:4px;background:white;padding:7px;border:1px solid #e5e9ef;box-shadow:0 4px 20px #29344d09;border-radius:15px;z-index:2}.tool{width:48px;height:46px;padding:5px;display:flex;flex-direction:column;gap:2px;align-items:center;justify-content:center}.tool svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.tool small{font-size:9px;color:#929aaa}.separator{width:1px;background:#e8ebf0;margin:6px}.properties{position:absolute;top:162px;left:20px;z-index:2;width:176px;background:#fff;padding:16px;border:1px solid #e5e9ef;border-radius:14px;box-shadow:0 4px 20px #29344d05}.label{font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:#9099a8;margin-bottom:10px}.swatches{display:flex;gap:7px;flex-wrap:wrap}.swatch{width:23px;height:23px;padding:0;border:2px solid #fff;outline:1px solid #e6e8ed;border-radius:50%}.swatch.active{outline:2px solid #6662e8;outline-offset:2px}.properties p{font-size:12px;line-height:1.6;color:#8a94a5;margin:14px 0 0}.property-row{display:flex;align-items:center;justify-content:space-between;margin-top:18px;font-size:12px;color:#768196}.property-row select{border:1px solid #e4e7ee;border-radius:6px;padding:4px;color:#3a4860;background:white;width:60px}#board{position:absolute;left:0;top:72px;width:100%;height:calc(100% - 72px);touch-action:none;outline:none}.bottom{position:absolute;bottom:22px;left:22px;display:flex;gap:4px;align-items:center;background:white;border:1px solid #e5e9ef;border-radius:11px;padding:5px;z-index:2}.bottom button{padding:7px 10px}.hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:#929bad;font-size:12px;pointer-events:none;white-space:nowrap}.help{position:absolute;right:22px;bottom:22px;background:white;border:1px solid #e5e9ef;z-index:2}.empty{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;color:#8c96a6}.empty .symbol{font-size:38px;color:#a4a2df}.empty h1{font-size:24px;letter-spacing:-.7px;color:#566176;font-weight:600;margin:14px 0 10px}.empty p{font-size:13px;line-height:1.8;margin:0}.empty kbd{background:#fff;border:1px solid #e1e5eb;padding:2px 6px;border-radius:4px;font-size:11px}.toast{position:absolute;bottom:75px;left:50%;transform:translateX(-50%);background:#29344b;color:white;padding:12px 20px;border-radius:10px;z-index:6;max-width:90vw;font-size:13px;display:none}.drop{position:absolute;inset:80px 8px 8px;background:#eeeeffdd;border:3px dashed #7770e8;border-radius:20px;display:none;place-items:center;z-index:5;font-size:22px;color:#5048c5;pointer-events:none}.modal{position:absolute;inset:0;background:#17213655;z-index:9;display:none;place-items:center}.modal article{background:white;padding:28px;border-radius:18px;width:min(480px,90vw);box-shadow:0 20px 80px #17213633}.modal h2{margin:0 0 20px}.modal p{line-height:1.7;color:#637083}.modal kbd{padding:2px 6px;background:#eef0f5;border-radius:4px}.modal .close{float:right}.text-editor{position:absolute;z-index:4;resize:both;border:2px solid #6a64df;border-radius:5px;background:#ffffffef;padding:8px;outline:none;color:#26334a;min-width:120px;min-height:50px}@media(max-width:800px){.properties{top:154px;width:146px;padding:12px;left:12px}.topbar{padding:0 12px;gap:10px}.actions button{padding:8px}.brand{font-size:0;gap:0}.document{padding-left:10px}.hint{display:none}.toolbar{top:84px}.tool{width:39px}.actions .export-label{display:none}}
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#233047;background:#f7f8fb;font-size:14px}*{box-sizing:border-box}body{margin:0;overflow:hidden}button,input,select{font:inherit}button{cursor:pointer;border:0;background:transparent;color:inherit;border-radius:9px;padding:9px 12px;white-space:nowrap}button:hover{background:#f0f2f7}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a5b4fc;outline-offset:2px}button.active{background:#e9eaff;color:#4f46e5}button:disabled{opacity:.35;cursor:default}.topbar{height:72px;position:absolute;inset:0 0 auto;display:flex;align-items:center;padding:0 24px;background:#fff;border-bottom:1px solid #e5e9ef;gap:16px;z-index:2}.brand{display:flex;align-items:center;gap:10px;font-weight:750;font-size:20px;letter-spacing:-.6px}.logo{width:36px;height:36px;flex:none;display:block}.logo svg{display:block;width:100%;height:100%}.document{border-left:1px solid #e4e7ed;padding-left:20px;flex:1;min-width:80px}.document input{width:min(260px,100%);border:0;font-weight:600;color:#344054;padding:3px;background:transparent;outline:none}.status{font-size:11px;color:#8992a3;padding:3px}.actions{display:flex;gap:4px}.primary{background:#5956df;color:#fff}.primary:hover{background:#4844c9}.toolbar{position:absolute;top:92px;left:50%;transform:translateX(-50%);display:flex;gap:4px;background:white;padding:7px;border:1px solid #e5e9ef;box-shadow:0 4px 20px #29344d09;border-radius:15px;z-index:2}.tool{width:48px;height:46px;padding:5px;display:flex;flex-direction:column;gap:2px;align-items:center;justify-content:center}.tool svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.tool small{font-size:9px;color:#929aaa}.separator{width:1px;background:#e8ebf0;margin:6px}.properties{position:absolute;top:162px;left:20px;z-index:2;width:176px;background:#fff;padding:16px;border:1px solid #e5e9ef;border-radius:14px;box-shadow:0 4px 20px #29344d05}.label{font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:#9099a8;margin-bottom:10px}.swatches{display:flex;gap:7px;flex-wrap:wrap}.swatch{width:23px;height:23px;padding:0;border:2px solid #fff;outline:1px solid #e6e8ed;border-radius:50%}.swatch.active{outline:2px solid #6662e8;outline-offset:2px}.properties p{font-size:12px;line-height:1.6;color:#8a94a5;margin:14px 0 0}.property-row{display:flex;align-items:center;justify-content:space-between;margin-top:18px;font-size:12px;color:#768196}.property-row select{border:1px solid #e4e7ee;border-radius:6px;padding:4px;color:#3a4860;background:white;width:60px}#board{position:absolute;left:0;top:72px;width:100%;height:calc(100% - 72px);touch-action:none;outline:none}.bottom{position:absolute;bottom:22px;left:22px;display:flex;gap:4px;align-items:center;background:white;border:1px solid #e5e9ef;border-radius:11px;padding:5px;z-index:2}.bottom button{padding:7px 10px}.hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:#929bad;font-size:12px;pointer-events:none;white-space:nowrap}.help{position:absolute;right:22px;bottom:22px;background:white;border:1px solid #e5e9ef;z-index:2}.empty{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;color:#8c96a6}.empty .symbol{font-size:38px;color:#a4a2df}.empty h1{font-size:24px;letter-spacing:-.7px;color:#566176;font-weight:600;margin:14px 0 10px}.empty p{font-size:13px;line-height:1.8;margin:0}.empty kbd{background:#fff;border:1px solid #e1e5eb;padding:2px 6px;border-radius:4px;font-size:11px}.toast{position:absolute;bottom:75px;left:50%;transform:translateX(-50%);background:#29344b;color:white;padding:12px 20px;border-radius:10px;z-index:6;max-width:90vw;font-size:13px;display:none}.drop{position:absolute;inset:80px 8px 8px;background:#eeeeffdd;border:3px dashed #7770e8;border-radius:20px;display:none;place-items:center;z-index:5;font-size:22px;color:#5048c5;pointer-events:none}.modal{position:absolute;inset:0;background:#17213655;z-index:9;display:none;place-items:center}.modal article{background:white;padding:28px;border-radius:18px;width:min(480px,90vw);box-shadow:0 20px 80px #17213633}.modal h2{margin:0 0 20px}.modal p{line-height:1.7;color:#637083}.modal kbd{padding:2px 6px;background:#eef0f5;border-radius:4px}.modal .close{float:right}.text-editor{position:absolute;z-index:4;resize:both;border:2px solid #6a64df;border-radius:5px;background:#ffffffef;padding:8px;outline:none;color:#26334a;min-width:120px;min-height:50px}@media(max-width:800px){.properties{top:154px;width:146px;padding:12px;left:12px}.topbar{padding:0 12px;gap:10px}.actions button{padding:8px}.brand{font-size:0;gap:0}.document{padding-left:10px}.hint{display:none}.toolbar{top:84px}.tool{width:39px}.actions .export-label{display:none}}
 </style></head><body>
 <header class="topbar"><div class="brand"><span class="logo" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#5956df"/><path d="M20 18h11c20 0 20 28 0 28H20" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><rect x="13" y="11" width="14" height="14" rx="4" fill="#fff"/><circle cx="20" cy="46" r="7" fill="#a7f3d0"/></svg></span>Dro</div><div class="document"><input id="docName" aria-label="Diagram name" value="Untitled diagram"><div class="status" id="saveStatus">Local whiteboard · works offline</div></div><nav class="actions"><button id="newBtn" title="Untitled diagram">New</button><button id="openBtn">Open</button><button id="exportBtn"><span class="export-label">Export </span>PNG</button><button class="primary" id="saveBtn">Save</button></nav></header>
 <canvas id="board" tabindex="0" aria-label="Diagram canvas. Use the toolbar to add objects."></canvas>
@@ -21,12 +23,15 @@
 <div class="modal" id="helpModal"><article><button class="close" id="closeHelp">✕</button><h2>A space for quick ideas</h2><p>Draw a shape, then double-click it to add text. Drag an arrow between shapes; it will stay connected when they move. Select an arrow and drag either round endpoint anywhere along a shape edge to reconnect it. The attachment stays in place when the shape moves or resizes. Drag the line itself to detach and move the whole arrow.</p><p>Add images using the toolbar, drag and drop, or <kbd>⌘ / Ctrl V</kbd>. Drag a corner to resize. Image proportions are preserved; hold <kbd>Shift</kbd> to resize freely.</p><p><kbd>V</kbd> select · <kbd>H</kbd> pan · <kbd>R</kbd> rectangle · <kbd>O</kbd> ellipse · <kbd>D</kbd> diamond · <kbd>A</kbd> arrow · <kbd>T</kbd> text · <kbd>I</kbd> image.</p><p><kbd>⌘ / Ctrl Z</kbd> undo · <kbd>Delete</kbd> delete · <kbd>Esc</kbd> select. <kbd>⌘ / Ctrl S</kbd> saves the file.</p><p>The .json file contains your diagram and all its images. Browser autosave is an extra copy; save important work to a file. No data is sent to the internet.</p></article></div><input id="imageInput" type="file" accept="image/*" multiple hidden><input id="fileInput" type="file" accept=".json,application/json" hidden>
 <script>
 'use strict';
-const $=id=>document.getElementById(id),canvas=$('board'),ctx=canvas.getContext('2d');let nodes=[],selected=null,tool='select',fill='#eef0ff',fontSize=20,view={x:0,y:0,z:1},drag=null,space=false,history=[],future=[],images=new Map(),editor=null,toastTimer,saveTimer;
+const $=id=>document.getElementById(id),canvas=$('board'),ctx=canvas.getContext('2d');let nodes=[],selected=null,tool='select',fill='#eef0ff',fontSize=20,view={x:0,y:0,z:1},drag=null,space=false,history=[],future=[],images=new Map(),imageLoads=new Map(),editor=null,toastTimer,saveTimer;
 const COLORS=['#ffffff','#eef0ff','#e3f3ed','#fff2d9','#fce5e7','#e1effb'],STORE='list-whiteboard-v1';
-const uid=()=>globalThis.crypto?.randomUUID?.()||'n'+Date.now().toString(36)+Math.random().toString(36).slice(2);const clone=o=>JSON.parse(JSON.stringify(o));const get=id=>nodes.find(n=>n.id===id);const isNode=n=>n&&n.type!=='arrow';const world=e=>{const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left-view.x)/view.z,y:(e.clientY-r.top-view.y)/view.z}};
+const uid=()=>globalThis.crypto?.randomUUID?.()||'n'+Date.now().toString(36)+Math.random().toString(36).slice(2);
+// Copy editable objects while sharing immutable embedded image strings across undo states.
+const clone=o=>Array.isArray(o)?o.map(clone):o&&typeof o==='object'?Object.fromEntries(Object.entries(o).map(([key,value])=>[key,clone(value)])):o;
+const get=id=>nodes.find(n=>n.id===id);const isNode=n=>n&&n.type!=='arrow';const world=e=>{const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left-view.x)/view.z,y:(e.clientY-r.top-view.y)/view.z}};
 function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').style.display='none',4000)}
 function state(){return{nodes:clone(nodes),name:$('docName').value}}function remember(){history.push(state());if(history.length>80)history.shift();future=[]}function restore(s){nodes=s.nodes;$('docName').value=s.name;selected=null;loadImages();changed()}
-function changed(){render();clearTimeout(saveTimer);saveTimer=setTimeout(()=>{try{localStorage.setItem(STORE,JSON.stringify(documentData()));$('saveStatus').textContent='Autosaved in this browser · all local'}catch(e){$('saveStatus').textContent='Autosave unavailable — save to a file'}},500)}
+function changed(){pruneImages();render();clearTimeout(saveTimer);saveTimer=setTimeout(()=>{try{localStorage.setItem(STORE,JSON.stringify(documentData()));$('saveStatus').textContent='Autosaved in this browser · all local'}catch(e){$('saveStatus').textContent='Autosave unavailable — save to a file'}},500)}
 function undo(){finishEdit();if(!history.length)return;future.push(state());restore(history.pop())}function redo(){finishEdit();if(!future.length)return;history.push(state());restore(future.pop())}
 function documentData(){return{format:'list-whiteboard',version:1,name:$('docName').value,nodes,view}}function setTool(t){finishEdit();tool=t;document.querySelectorAll('[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));canvas.style.cursor=t==='hand'?'grab':t==='select'?'default':'crosshair';render()}
 function shapePath(c,n){c.beginPath();if(n.type==='ellipse')c.ellipse(n.x+n.w/2,n.y+n.h/2,n.w/2,n.h/2,0,0,Math.PI*2);else if(n.type==='diamond'){c.moveTo(n.x+n.w/2,n.y);c.lineTo(n.x+n.w,n.y+n.h/2);c.lineTo(n.x+n.w/2,n.y+n.h);c.lineTo(n.x,n.y+n.h/2);c.closePath()}else c.roundRect(n.x,n.y,n.w,n.h,Math.min(12,n.w/4,n.h/4))}
@@ -120,14 +125,249 @@ function removeSelected(){finishEdit();if(!selected)return;remember();for(const 
 function updateColors(){document.querySelectorAll('.swatch').forEach(b=>b.classList.toggle('active',b.dataset.color===fill))}COLORS.forEach(color=>{const b=document.createElement('button');b.className='swatch';b.style.background=color;b.dataset.color=color;b.title=({'#ffffff':'White','#eef0ff':'Lavender','#e3f3ed':'Mint','#fff2d9':'Sand','#fce5e7':'Rose','#e1effb':'Blue'})[color];b.setAttribute('aria-label',b.title);b.onclick=()=>{fill=color;const n=get(selected);if(n&&!['image','arrow'].includes(n.type)){remember();n.fill=fill;changed()}updateColors()};$('colors').append(b)});updateColors();
 function readFile(f){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(Error('Could not read the file'));r.readAsDataURL(f)})}function decode(src){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error('Image is unsupported or damaged'));im.src=src})}
 async function addImages(files,point){finishEdit();const valid=[...files].filter(f=>f.type.startsWith('image/')||/\.(png|jpe?g|webp|gif|svg|bmp|avif)$/i.test(f.name));if(!valid.length){toast('Choose an image: PNG, JPG, SVG, WebP or GIF');return}let i=0;for(const file of valid){try{if(file.size>30*1024*1024)throw Error('Image is too large: maximum 30 MB');const src=await readFile(file),im=await decode(src),raster=document.createElement('canvas'),scale=Math.min(1,4096/Math.max(im.naturalWidth,im.naturalHeight));if(!im.naturalWidth||!im.naturalHeight)throw Error('Could not determine image dimensions');raster.width=Math.max(1,Math.round(im.naturalWidth*scale));raster.height=Math.max(1,Math.round(im.naturalHeight*scale));raster.getContext('2d').drawImage(im,0,0,raster.width,raster.height);const embedded=raster.toDataURL('image/png'),decoded=await decode(embedded);images.set(embedded,decoded);remember();const max=Math.min(500,canvas.clientWidth*.5/view.z),ratio=Math.min(1,max/raster.width,400/view.z/raster.height),w=raster.width*ratio,h=raster.height*ratio,p=point||{x:(canvas.clientWidth/2-view.x)/view.z,y:(canvas.clientHeight/2-view.y)/view.z};const n={id:uid(),type:'image',x:p.x-w/2+i*24,y:p.y-h/2+i*24,w,h,src:embedded};nodes.push(n);selected=n.id;i++;setTool('select');changed()}catch(e){toast(e.message)}}if(i)toast('Image added. Drag its corners to resize.')}
-function loadImages(){for(const n of nodes)if(n.type==='image'&&!images.has(n.src))decode(n.src).then(im=>{images.set(n.src,im);render()}).catch(()=>toast('Could not load an image from the file'))}
+function reachableImageSources(){
+  const sources=new Set();
+  for(const list of [nodes,...history.map(s=>s.nodes),...future.map(s=>s.nodes)])
+    for(const n of list)if(n.type==='image')sources.add(n.src);
+  return sources;
+}
+function pruneImages(){
+  const sources=reachableImageSources();
+  for(const src of images.keys())if(!sources.has(src))images.delete(src);
+}
+function loadImage(src){
+  if(images.has(src))return Promise.resolve(images.get(src));
+  if(imageLoads.has(src))return imageLoads.get(src);
+  const pending=decode(src).then(im=>{
+    // A decode may finish after its document and undo entries were discarded.
+    if(reachableImageSources().has(src))images.set(src,im);
+    return im;
+  }).finally(()=>imageLoads.delete(src));
+  imageLoads.set(src,pending);
+  return pending;
+}
+function loadImages(){
+  for(const n of nodes)if(n.type==='image'&&!images.has(n.src))
+    loadImage(n.src).then(render).catch(()=>{
+      if(nodes.some(item=>item.type==='image'&&item.src===n.src))toast('Could not load an image from the file');
+    });
+}
 $('imageBtn').onclick=()=>$('imageInput').click();$('imageInput').onchange=e=>{addImages(e.target.files);e.target.value=''};let dragDepth=0;window.addEventListener('dragenter',e=>{if(e.dataTransfer.types.includes('Files')){e.preventDefault();dragDepth++;$('drop').style.display='grid'}});window.addEventListener('dragover',e=>{if(e.dataTransfer.types.includes('Files'))e.preventDefault()});window.addEventListener('dragleave',()=>{if(--dragDepth<=0){dragDepth=0;$('drop').style.display='none'}});window.addEventListener('drop',e=>{e.preventDefault();dragDepth=0;$('drop').style.display='none';addImages(e.dataTransfer.files,world(e))});window.addEventListener('paste',e=>{if(['INPUT','TEXTAREA'].includes(e.target.tagName))return;const files=[...(e.clipboardData?.items||[])].filter(i=>i.kind==='file').map(i=>i.getAsFile()).filter(Boolean);if(files.length){e.preventDefault();addImages(files)}});
 function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),15000)}function filename(){return($('docName').value.trim()||'Diagram').replace(/[\\/:*?"<>|]/g,'-')}
 function save(){finishEdit();download(new Blob([JSON.stringify(documentData(),null,2)],{type:'application/json'}),filename()+'.json');toast('Diagram file saved with all images')}
 function validate(data){if(!data||data.format!=='list-whiteboard'||data.version!==1||!Array.isArray(data.nodes)||data.nodes.length>5000)throw Error('This is not a Dro diagram file');const ids=new Set();const out=data.nodes.map(n=>{if(!n||!['rect','ellipse','diamond','text','image','arrow'].includes(n.type)||typeof n.id!=='string'||ids.has(n.id))throw Error('Invalid object in file');ids.add(n.id);const x={id:n.id,type:n.type};for(const k of n.type==='arrow'?['x','y','x2','y2']:['x','y','w','h']){if(typeof n[k]!=='number'||!Number.isFinite(n[k])||Math.abs(n[k])>1e7||(k==='w'||k==='h')&&n[k]<=0)throw Error('Invalid object dimensions');x[k]=n[k]}if(n.type==='image'){if(typeof n.src!=='string'||!/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(n.src))throw Error('Invalid embedded image');x.src=n.src}else if(n.type==='arrow'){x.from=typeof n.from==='string'?n.from:null;x.to=typeof n.to==='string'?n.to:null;for(const key of ['fromAnchor','toAnchor']){if(n[key]!=null){const a=n[key];if(typeof a!=='object'||!Number.isFinite(a.x)||!Number.isFinite(a.y)||a.x<0||a.x>1||a.y<0||a.y>1)throw Error('Invalid arrow attachment position');x[key]={x:a.x,y:a.y}}}}else{x.fill=/^#[0-9a-f]{6}$/i.test(n.fill)?n.fill:'#eef0ff';x.fontSize=[16,20,24,32,40].includes(n.fontSize)?n.fontSize:20;x.text=typeof n.text==='string'?n.text.slice(0,50000):''}return x});const targets=new Set(out.filter(n=>n.type!=='arrow').map(n=>n.id));for(const n of out)if(n.type==='arrow'){if(!targets.has(n.from))n.from=null;if(!targets.has(n.to)||n.to===n.from)n.to=null;if(!n.from)delete n.fromAnchor;if(!n.to)delete n.toAnchor}return{nodes:out,name:typeof data.name==='string'?data.name.slice(0,200):'Diagram'}}
 $('fileInput').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{if(f.size>100*1024*1024)throw Error('File is too large: maximum 100 MB');const s=validate(JSON.parse(await f.text()));finishEdit();remember();restore(s);fit();toast('Diagram opened')}catch(err){toast(err instanceof SyntaxError?'Could not read the JSON file':err.message)}};
-async function exportPNG(){finishEdit();const b=bounds();if(!b){toast('Add some objects to the board first');return}try{await Promise.all(nodes.filter(n=>n.type==='image').map(async n=>{if(!images.has(n.src))images.set(n.src,await decode(n.src))}));const scale=Math.min(2,8192/(b.w+80),8192/(b.h+80),Math.sqrt(24000000/((b.w+80)*(b.h+80)))),out=document.createElement('canvas');out.width=Math.max(1,Math.ceil((b.w+80)*scale));out.height=Math.max(1,Math.ceil((b.h+80)*scale));const c=out.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,out.width,out.height);c.scale(scale,scale);c.translate(40-b.x,40-b.y);nodes.filter(n=>n.type==='arrow').forEach(n=>drawNode(c,n));nodes.filter(n=>n.type!=='arrow').forEach(n=>drawNode(c,n));out.toBlob(blob=>{if(blob){download(blob,filename()+'.png');toast('PNG saved')}else toast('Could not create PNG')},'image/png')}catch(err){toast('Export failed: '+err.message)}}
+async function exportPNG(){finishEdit();const b=bounds();if(!b){toast('Add some objects to the board first');return}try{await Promise.all(nodes.filter(n=>n.type==='image').map(async n=>{if(!images.has(n.src))await loadImage(n.src)}));const scale=Math.min(2,8192/(b.w+80),8192/(b.h+80),Math.sqrt(24000000/((b.w+80)*(b.h+80)))),out=document.createElement('canvas');out.width=Math.max(1,Math.ceil((b.w+80)*scale));out.height=Math.max(1,Math.ceil((b.h+80)*scale));const c=out.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,out.width,out.height);c.scale(scale,scale);c.translate(40-b.x,40-b.y);nodes.filter(n=>n.type==='arrow').forEach(n=>drawNode(c,n));nodes.filter(n=>n.type!=='arrow').forEach(n=>drawNode(c,n));out.toBlob(blob=>{if(blob){download(blob,filename()+'.png');toast('PNG saved')}else toast('Could not create PNG')},'image/png')}catch(err){toast('Export failed: '+err.message)}}
 $('saveBtn').onclick=save;$('openBtn').onclick=()=>$('fileInput').click();$('exportBtn').onclick=exportPNG;$('newBtn').onclick=()=>{finishEdit();if(nodes.length&&!confirm('Create a new diagram? Save important work to a file first. You can undo this action.'))return;remember();nodes=[];selected=null;$('docName').value='Untitled diagram';view={x:0,y:0,z:1};changed()};$('docName').addEventListener('change',changed);$('undoBtn').onclick=undo;$('redoBtn').onclick=redo;$('deleteBtn').onclick=removeSelected;$('zoomIn').onclick=()=>zoom(1.2);$('zoomOut').onclick=()=>zoom(1/1.2);$('zoomReset').onclick=()=>zoom(1/view.z);$('fitBtn').onclick=fit;$('helpBtn').onclick=()=>$('helpModal').style.display='grid';$('closeHelp').onclick=()=>$('helpModal').style.display='none';$('helpModal').onclick=e=>{if(e.target===$('helpModal'))$('helpModal').style.display='none'};document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>setTool(b.dataset.tool));$('fontSize').onchange=e=>{fontSize=Number(e.target.value);const n=get(selected);if(n&&!['image','arrow'].includes(n.type)){remember();n.fontSize=fontSize;changed()}};
 window.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)){if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();save()}return}const key=e.key.toLowerCase(),mod=e.metaKey||e.ctrlKey;if(mod&&key==='s'){e.preventDefault();save();return}if(mod&&key==='z'){e.preventDefault();e.shiftKey?redo():undo();return}if(mod&&key==='y'){e.preventDefault();redo();return}if(mod)return;if(e.code==='Space'){e.preventDefault();space=true;canvas.style.cursor='grab';return}if(key==='escape'){$('helpModal').style.display='none';selected=null;setTool('select')}if(key==='delete'||key==='backspace'){e.preventDefault();removeSelected()}const keys={v:'select',h:'hand',r:'rect',o:'ellipse',d:'diamond',a:'arrow',t:'text'};if(keys[key])setTool(keys[key]);if(key==='i')$('imageInput').click()});window.addEventListener('keyup',e=>{if(e.code==='Space'){space=false;canvas.style.cursor=tool==='hand'?'grab':tool==='select'?'default':'crosshair'}});window.addEventListener('blur',()=>{space=false;finishDrag()});window.addEventListener('resize',render);
 try{const raw=localStorage.getItem(STORE);if(raw){const data=JSON.parse(raw),s=validate(data);nodes=s.nodes;$('docName').value=s.name;if(data.view&&['x','y','z'].every(k=>Number.isFinite(data.view[k]))&&data.view.z>=.15&&data.view.z<=4)view=data.view;loadImages();$('saveStatus').textContent='Restored the local autosave'}}catch(e){$('saveStatus').textContent='Autosave unavailable — save your work to a file'}render();
-</script></body></html>
+</script><!--
+Dro — a single-file personal drawing tool
+Copyright 2026 airokz and contributors
+SPDX-License-Identifier: Apache-2.0
+
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+-->
+</body></html>

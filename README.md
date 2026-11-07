@@ -1,54 +1,67 @@
 # Dro
 
-An offline whiteboard for quick diagrams during meetings. Open **whiteboard.html** directly in your browser. No installation, server, account, external libraries or internet connection is needed.
+A small, personal drawing tool in one HTML file. Sketch a diagram, add a screenshot, save it locally.
 
-## Features
+## Use it
 
-- Rectangles, ellipses, diamonds, text and arrows attached to objects.
-- Add images and screenshots using the image button, file drag-and-drop or Cmd/Ctrl+V.
-- Move images and resize them using corner handles. Aspect ratio is preserved; hold Shift to resize freely.
-- Save and open editable JSON files with every image embedded.
-- Export the whole diagram as PNG.
-- Undo/redo, zoom, pan and best-effort browser autosave.
+Download `whiteboard.html` and open it in a desktop browser. That is the whole application, including its logo and favicon. No install, build step, server, account, or internet connection is required.
 
-## Controls
+- Draw rectangles, ellipses, diamonds, text, and arrows.
+- Add images with the image button, file drag-and-drop, or Cmd/Ctrl+V.
+- Move and resize objects. Image proportions stay fixed unless you hold Shift.
+- Drag either arrow endpoint to any position along an object's outline. Attachments follow the object when it moves or resizes.
+- Save editable JSON with images embedded, or export the drawing as PNG.
+- Undo, redo, zoom, pan, and fit the drawing to the screen.
+
+Double-click a shape to edit its text. Select an arrow by its line or endpoints; dragging the line moves the whole arrow and detaches both ends.
+
+## Shortcuts
 
 | Key | Action |
 | --- | --- |
 | V | Select |
 | H or Space + drag | Pan |
 | R / O / D | Rectangle / ellipse / diamond |
-| A | Arrow — drag from one object to another |
-| T | Text |
-| I | Add image |
-| Cmd/Ctrl+S | Download diagram JSON |
+| A / T / I | Arrow / text / image |
+| Cmd/Ctrl+S | Save JSON |
 | Cmd/Ctrl+Z | Undo |
 | Cmd/Ctrl+Shift+Z | Redo |
-| Delete / Backspace | Delete selected object |
+| Delete / Backspace | Delete selection |
+| Cmd/Ctrl+Enter | Finish editing text |
+| Mouse wheel | Zoom |
 
-Select an arrow by clicking its line or either endpoint. Drag either round endpoint handle to any point along a shape outline to choose its attachment position, reconnect it to another shape, or drop it on empty canvas to detach it. Attachment points keep their relative positions when shapes move or resize. The opposite endpoint keeps its connection. Dragging the line itself moves the whole arrow and detaches both ends.
+## Your files and privacy
 
-Double-click a shape to edit its label. Press Cmd/Ctrl+Enter to finish editing. Use the mouse wheel to zoom and Fit to show the whole diagram.
+Dro has no analytics, accounts, remote fonts, or network calls. Your drawing stays in browser memory, browser storage, and files you choose to save. Exported JSON contains embedded images: treat it as the complete drawing when sharing it.
 
-## Files and privacy
+**Save important work to JSON.** Autosave is a best-effort local copy, not a backup. Storage can be unavailable, full, cleared, or tied to the location of the HTML file. Private browsing may discard it. Saving downloads a new file; it does not overwrite an opened file. Open a saved JSON file through **Open** to continue editing.
 
-The HTML file is the application. The JSON file is your editable diagram, including embedded images; original image files are not required when reopening it. Saving downloads a new copy rather than overwriting the previously opened document. No diagram or image is uploaded anywhere.
+Images up to 30 MB are converted to PNG, with the longest edge limited to 4096 pixels. SVG icons are rasterized and GIFs become still images. JSON imports are limited to 100 MB and 5,000 objects. Large images or drawings can still use substantial memory.
 
-Browser autosave is a convenience, not a backup. Browser storage can be unavailable, cleared or full, particularly with large images or private browsing. Save important work to JSON.
+## Scope and browser support
 
-Image files up to 30 MB are converted to embedded PNG, with the longest edge limited to 4096 pixels. SVG icons are rasterized, and animated GIFs become still images. Clipboard paste requires image data, not just a copied file path; use file drag-and-drop when necessary.
+Dro is a personal desktop canvas, not a collaborative editor. It currently selects one object at a time. Canvas objects do not yet have full keyboard or screen-reader navigation.
 
-## Development and verification
+Tested in desktop Chrome. Other browsers may work, but Firefox and Safari have not been verified. Image paste depends on your browser and clipboard contents; a copied file path is not image data. Use the image button or drag-and-drop if pasting does not work.
 
-Edit `whiteboard.html` and reload it. There is no build step or runtime dependency.
+## Development
 
-Browser tests use Playwright Core and an installed Chrome browser:
+Edit `whiteboard.html` and reload it. Keep the application self-contained: no runtime dependencies, CDN assets, bundler, or backend. The repository's tests and documentation are not needed to run it.
+
+Browser regression tests use Node.js, Playwright Core, and an installed Chrome browser. Install the test dependency, then run:
 
 ```sh
-npm install --no-save --package-lock=false playwright-core
+npm install --no-save --package-lock=false playwright-core@1.61.1
 node tests/smoke.cjs
 node tests/arrows.cjs
 node tests/anchors.cjs
+node tests/memory.cjs
 ```
 
-Set `CHROME_PATH` if Chrome is installed at a nonstandard location. `PLAYWRIGHT_MODULE` can point to an existing Playwright Core installation. Tests open the app using `file://`, check image manipulation and file round-tripping, and verify that it makes no outgoing HTTP requests. Clipboard testing uses a browser ClipboardEvent with image data; OS clipboard permissions are not automated.
+`CHROME_PATH` overrides Chrome's executable path; Windows users need to set it. `PLAYWRIGHT_MODULE` optionally points to an existing Playwright Core installation. Tests open the HTML using `file://` and cover image manipulation, arrows, text editing, undo/redo, file round-trips, and absence of outgoing HTTP requests. Clipboard tests simulate browser events; native OS clipboard integration is not automated.
+
+Small, focused fixes are welcome. Include reproduction steps and relevant tests, preserve existing saved files, and keep the single-file design. Do not include private drawings or screenshots in issue reports. The internal `list-whiteboard` identifiers are retained for compatibility with earlier files.
+
+## License
+
+[Apache License 2.0](LICENSE). The standalone HTML also includes the license so it can be shared on its own. This license covers Dro's code and bundled artwork, not drawings or images you create or import.
