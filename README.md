@@ -26,6 +26,8 @@ An offline whiteboard for quick diagrams during meetings. Open **whiteboard.html
 | Cmd/Ctrl+Shift+Z | Redo |
 | Delete / Backspace | Delete selected object |
 
+Select an arrow by clicking its line or either endpoint. Drag either round endpoint handle to reconnect it to another shape or drop it on empty canvas to detach it. The opposite endpoint keeps its connection. Dragging the line itself moves the whole arrow and detaches both ends.
+
 Double-click a shape to edit its label. Press Cmd/Ctrl+Enter to finish editing. Use the mouse wheel to zoom and Fit to show the whole diagram.
 
 ## Files and privacy
@@ -45,6 +47,7 @@ Browser tests use Playwright Core and an installed Chrome browser:
 ```sh
 npm install --no-save --package-lock=false playwright-core
 node tests/smoke.cjs
+node tests/arrows.cjs
 ```
 
 Set `CHROME_PATH` if Chrome is installed at a nonstandard location. `PLAYWRIGHT_MODULE` can point to an existing Playwright Core installation. Tests open the app using `file://`, check image manipulation and file round-tripping, and verify that it makes no outgoing HTTP requests. Clipboard testing uses a browser ClipboardEvent with image data; OS clipboard permissions are not automated.
