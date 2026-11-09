@@ -541,11 +541,13 @@
         </p>
         <p>
           <kbd>V</kbd> select · <kbd>H</kbd> pan · <kbd>R</kbd> rectangle · <kbd>O</kbd> ellipse ·
-          <kbd>D</kbd> diamond · <kbd>A</kbd> arrow · <kbd>T</kbd> text · <kbd>I</kbd> image.
+          <kbd>D</kbd> diamond · <kbd>A</kbd> arrow · <kbd>T</kbd> text · <kbd>I</kbd> image. Hold
+          <kbd>Shift</kbd> while drawing a rectangle, ellipse, or diamond for a perfect square or
+          circle, or while resizing one to keep its proportions.
         </p>
         <p>
-          <kbd>⌘ / Ctrl Z</kbd> undo · <kbd>Delete</kbd> delete · <kbd>Esc</kbd> select.
-          <kbd>⌘ / Ctrl S</kbd> saves the file.
+          <kbd>⌘ / Ctrl A</kbd> select all · <kbd>⌘ / Ctrl Z</kbd> undo · <kbd>Delete</kbd> delete ·
+          <kbd>Esc</kbd> deselect. <kbd>⌘ / Ctrl S</kbd> saves the file.
         </p>
         <p>
           The .json file contains your diagram and all its images. Browser autosave is an extra
@@ -566,6 +568,8 @@
         ctx = canvas.getContext("2d");
       let nodes = [],
         selected = null,
+        // Ids selected together (Ctrl/Cmd+A). Only used when no single object is selected.
+        group = [],
         tool = "select",
         fill = "#eef0ff",
         fontSize = 20,
@@ -618,6 +622,7 @@
         nodes = s.nodes;
         $("docName").value = s.name;
         selected = null;
+        group = [];
         loadImages();
         changed();
       }
@@ -878,6 +883,27 @@
         ctx.scale(view.z, view.z);
         nodes.filter((n) => n.type === "arrow").forEach((n) => drawNode(ctx, n));
         nodes.filter((n) => n.type !== "arrow").forEach((n) => drawNode(ctx, n));
+        // A single selection always replaces a group selection.
+        if (selected) group = [];
+        group = group.filter((id) => get(id));
+        for (const member of group.map(get)) {
+          ctx.strokeStyle = "#6a64df";
+          ctx.lineWidth = 1.5 / view.z;
+          ctx.setLineDash([5 / view.z, 4 / view.z]);
+          ctx.beginPath();
+          if (member.type === "arrow") {
+            const [p, q] = ends(member);
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+          } else
+            ctx.rect(
+              member.x - 4 / view.z,
+              member.y - 4 / view.z,
+              member.w + 8 / view.z,
+              member.h + 8 / view.z,
+            );
+          ctx.stroke();
+        }
         const n = get(selected);
         if (n) {
           ctx.strokeStyle = "#6a64df";
@@ -935,9 +961,10 @@
         $("zoomReset").textContent = Math.round(view.z * 100) + "%";
         $("undoBtn").disabled = !history.length;
         $("redoBtn").disabled = !future.length;
-        $("deleteBtn").disabled = !selected;
-        $("selectionHint").textContent =
-          n?.type === "image"
+        $("deleteBtn").disabled = !selected && !group.length;
+        $("selectionHint").textContent = group.length
+          ? `${group.length} objects selected. Drag one to move them all, or press Delete.`
+          : n?.type === "image"
             ? "Drag corners to resize. Hold Shift for free proportions."
             : n?.type === "arrow"
               ? "Drag either round endpoint to attach anywhere along a shape edge. Drag the line to detach and move the whole arrow."
@@ -1034,6 +1061,20 @@
           canvas.style.cursor = "grabbing";
           return;
         }
+        if (tool === "select" && group.length) {
+          const target = hit(p);
+          if (target && group.includes(target.id)) {
+            drag = {
+              mode: "move-group",
+              target: target.id,
+              start: p,
+              originals: group.map(get).map(clone),
+              recorded: false,
+            };
+            return;
+          }
+        }
+        group = [];
         const n = get(selected);
         if (tool === "select") {
           const endpointHit = hitArrowEndpoint(p);
@@ -1115,7 +1156,12 @@
         }
         nodes.push(newNode);
         selected = newNode.id;
-        drag = { mode: "create", start: p, original: clone(newNode) };
+        drag = {
+          mode: "create",
+          start: p,
+          original: clone(newNode),
+          square: e.shiftKey && ["rect", "ellipse", "diamond"].includes(tool),
+        };
         render();
       });
       canvas.addEventListener("pointermove", (e) => {
@@ -1127,6 +1173,30 @@
         if (drag.mode === "pan") {
           view.x = drag.view.x + e.clientX - drag.cx;
           view.y = drag.view.y + e.clientY - drag.cy;
+          render();
+          return;
+        }
+        if (drag.mode === "move-group") {
+          const dx = p.x - drag.start.x,
+            dy = p.y - drag.start.y;
+          if (!drag.recorded) {
+            if (Math.hypot(dx, dy) < 1) return;
+            remember();
+            drag.recorded = true;
+          }
+          for (const o of drag.originals) {
+            const m = get(o.id);
+            if (!m) continue;
+            // Attached arrow ends follow their shapes; free ends move with the group.
+            if (m.type !== "arrow" || !m.from) {
+              m.x = o.x + dx;
+              m.y = o.y + dy;
+            }
+            if (m.type === "arrow" && !m.to) {
+              m.x2 = o.x2 + dx;
+              m.y2 = o.y2 + dy;
+            }
+          }
           render();
           return;
         }
@@ -1179,7 +1249,8 @@
             north = drag.handle.includes("n");
           let nw = Math.max(24, o.w + (west ? -dx : dx)),
             nh = Math.max(24, o.h + (north ? -dy : dy));
-          if (n.type === "image" && !e.shiftKey) {
+          // Images keep proportions unless Shift is held; other shapes keep them only with Shift.
+          if ((n.type === "image") !== e.shiftKey) {
             const ratio = o.w / o.h;
             if (Math.abs(nw - o.w) / o.w > Math.abs(nh - o.h) / o.h) nh = nw / ratio;
             else nw = nh * ratio;
@@ -1197,15 +1268,24 @@
           else delete n.toAnchor;
           drag.snapTarget = n.to;
         } else {
-          n.x = Math.min(p.x, drag.start.x);
-          n.y = Math.min(p.y, drag.start.y);
-          n.w = Math.abs(dx);
-          n.h = Math.abs(dy);
+          // Shift draws a perfect square, circle, or square diamond.
+          drag.square = e.shiftKey && ["rect", "ellipse", "diamond"].includes(n.type);
+          const w = drag.square ? Math.max(Math.abs(dx), Math.abs(dy)) : Math.abs(dx),
+            h = drag.square ? w : Math.abs(dy);
+          n.x = dx < 0 ? drag.start.x - w : drag.start.x;
+          n.y = dy < 0 ? drag.start.y - h : drag.start.y;
+          n.w = w;
+          n.h = h;
         }
         render();
       });
       function finishDrag() {
         if (!drag) return;
+        // Clicking a group member without dragging selects just that object.
+        if (drag.mode === "move-group" && !drag.recorded) {
+          selected = drag.target;
+          group = [];
+        }
         const n = get(selected);
         if (drag.mode === "create" && n) {
           if (n.type === "arrow") {
@@ -1214,8 +1294,10 @@
               selected = null;
             }
           } else if (n.w < 8 && n.h < 8) {
-            n.w = 180;
-            n.h = n.type === "diamond" ? 130 : 100;
+            n.w = drag.square ? 130 : 180;
+            n.h = drag.square ? 130 : n.type === "diamond" ? 130 : 100;
+          } else if (drag.square) {
+            n.w = n.h = Math.max(24, n.w);
           } else {
             n.w = Math.max(24, n.w);
             n.h = Math.max(24, n.h);
@@ -1352,27 +1434,42 @@
       }
       function removeSelected() {
         finishEdit();
-        if (!selected) return;
+        const gone = new Set(selected ? [selected] : group);
+        if (!gone.size) return;
         remember();
         for (const n of nodes)
-          if (n.type === "arrow" && (n.from === selected || n.to === selected)) {
+          if (n.type === "arrow" && !gone.has(n.id) && (gone.has(n.from) || gone.has(n.to))) {
             const [p, q] = ends(n);
             n.x = p.x;
             n.y = p.y;
             n.x2 = q.x;
             n.y2 = q.y;
-            if (n.from === selected) {
+            if (gone.has(n.from)) {
               n.from = null;
               delete n.fromAnchor;
             }
-            if (n.to === selected) {
+            if (gone.has(n.to)) {
               n.to = null;
               delete n.toAnchor;
             }
           }
-        nodes = nodes.filter((n) => n.id !== selected);
+        nodes = nodes.filter((n) => !gone.has(n.id));
         selected = null;
+        group = [];
         changed();
+      }
+      function selectAll() {
+        finishEdit();
+        setTool("select");
+        selected = nodes.length === 1 ? nodes[0].id : null;
+        group = nodes.length > 1 ? nodes.map((n) => n.id) : [];
+        render();
+      }
+      // Color and font size apply to every selected shape that has them.
+      function styleTargets() {
+        return (selected ? [selected] : group)
+          .map(get)
+          .filter((n) => n && !["image", "arrow"].includes(n.type));
       }
       function updateColors() {
         document
@@ -1395,10 +1492,10 @@
         b.setAttribute("aria-label", b.title);
         b.onclick = () => {
           fill = color;
-          const n = get(selected);
-          if (n && !["image", "arrow"].includes(n.type)) {
+          const targets = styleTargets();
+          if (targets.length) {
             remember();
-            n.fill = fill;
+            targets.forEach((n) => (n.fill = fill));
             changed();
           }
           updateColors();
@@ -1716,6 +1813,7 @@
         remember();
         nodes = [];
         selected = null;
+        group = [];
         $("docName").value = "Untitled diagram";
         view = { x: 0, y: 0, z: 1 };
         changed();
@@ -1738,10 +1836,10 @@
         .forEach((b) => (b.onclick = () => setTool(b.dataset.tool)));
       $("fontSize").onchange = (e) => {
         fontSize = Number(e.target.value);
-        const n = get(selected);
-        if (n && !["image", "arrow"].includes(n.type)) {
+        const targets = styleTargets();
+        if (targets.length) {
           remember();
-          n.fontSize = fontSize;
+          targets.forEach((n) => (n.fontSize = fontSize));
           changed();
         }
       };
@@ -1770,6 +1868,11 @@
           redo();
           return;
         }
+        if (mod && key === "a") {
+          e.preventDefault();
+          selectAll();
+          return;
+        }
         if (mod) return;
         if (e.code === "Space") {
           e.preventDefault();
@@ -1780,6 +1883,7 @@
         if (key === "escape") {
           $("helpModal").style.display = "none";
           selected = null;
+          group = [];
           setTool("select");
         }
         if (key === "delete" || key === "backspace") {
