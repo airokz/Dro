@@ -10,9 +10,10 @@ A small, personal drawing tool in one HTML file. Sketch a diagram, add a screens
 
 Use the [live demo](https://airokz.github.io/Dro/) (it is the same file and still makes no network calls once loaded), or download `whiteboard.html` and open it in a desktop browser. That is the whole application, including its logo and favicon. No install, build step, server, account, or internet connection is required.
 
-- Draw rectangles, ellipses, diamonds, text, and arrows.
+- Draw rectangles, ellipses, diamonds, text, and arrows. Hold Shift while drawing for a perfect square or circle.
 - Add images with the image button, file drag-and-drop, or Cmd/Ctrl+V.
-- Move and resize objects. Image proportions stay fixed unless you hold Shift.
+- Move and resize objects. Image proportions stay fixed unless you hold Shift; other shapes keep their proportions while you hold Shift.
+- Select everything with Cmd/Ctrl+A, then drag, recolor, change the font size, or delete it all at once.
 - Drag either arrow endpoint to any position along an object's outline. Attachments follow the object when it moves or resizes.
 - Save editable JSON with images embedded, or export the drawing as PNG.
 - Undo, redo, zoom, pan, and fit the drawing to the screen.
@@ -27,6 +28,9 @@ Double-click a shape to edit its text. Select an arrow by its line or endpoints;
 | H or Space + drag  | Pan                           |
 | R / O / D          | Rectangle / ellipse / diamond |
 | A / T / I          | Arrow / text / image          |
+| Shift + draw       | Perfect square / circle       |
+| Cmd/Ctrl+A         | Select all                    |
+| Esc                | Deselect                      |
 | Cmd/Ctrl+S         | Save JSON                     |
 | Cmd/Ctrl+Z         | Undo                          |
 | Cmd/Ctrl+Shift+Z   | Redo                          |
