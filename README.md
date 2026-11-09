@@ -2,9 +2,13 @@
 
 A small, personal drawing tool in one HTML file. Sketch a diagram, add a screenshot, save it locally.
 
+**[Try it in your browser →](https://airokz.github.io/Dro/)** · [Download `whiteboard.html`](whiteboard.html)
+
+![A Dro board reviewing a redesign: before and after app screenshots, a terminal screenshot of passing tests, sticky notes, arrows, and a text block](docs/screenshot.png)
+
 ## Use it
 
-Download `whiteboard.html` and open it in a desktop browser. That is the whole application, including its logo and favicon. No install, build step, server, account, or internet connection is required.
+Use the [live demo](https://airokz.github.io/Dro/) (it is the same file and still makes no network calls once loaded), or download `whiteboard.html` and open it in a desktop browser. That is the whole application, including its logo and favicon. No install, build step, server, account, or internet connection is required.
 
 - Draw rectangles, ellipses, diamonds, text, and arrows.
 - Add images with the image button, file drag-and-drop, or Cmd/Ctrl+V.
@@ -17,18 +21,18 @@ Double-click a shape to edit its text. Select an arrow by its line or endpoints;
 
 ## Shortcuts
 
-| Key | Action |
-| --- | --- |
-| V | Select |
-| H or Space + drag | Pan |
-| R / O / D | Rectangle / ellipse / diamond |
-| A / T / I | Arrow / text / image |
-| Cmd/Ctrl+S | Save JSON |
-| Cmd/Ctrl+Z | Undo |
-| Cmd/Ctrl+Shift+Z | Redo |
-| Delete / Backspace | Delete selection |
-| Cmd/Ctrl+Enter | Finish editing text |
-| Mouse wheel | Zoom |
+| Key                | Action                        |
+| ------------------ | ----------------------------- |
+| V                  | Select                        |
+| H or Space + drag  | Pan                           |
+| R / O / D          | Rectangle / ellipse / diamond |
+| A / T / I          | Arrow / text / image          |
+| Cmd/Ctrl+S         | Save JSON                     |
+| Cmd/Ctrl+Z         | Undo                          |
+| Cmd/Ctrl+Shift+Z   | Redo                          |
+| Delete / Backspace | Delete selection              |
+| Cmd/Ctrl+Enter     | Finish editing text           |
+| Mouse wheel        | Zoom                          |
 
 ## Your files and privacy
 
@@ -46,7 +50,7 @@ Tested in desktop Chrome. Other browsers may work, but Firefox and Safari have n
 
 ## Development
 
-Edit `whiteboard.html` and reload it. Keep the application self-contained: no runtime dependencies, CDN assets, bundler, or backend. The repository's tests and documentation are not needed to run it.
+Edit `whiteboard.html` and reload it. The code is formatted with [Prettier](https://prettier.io) (settings in `.prettierrc`); run `npx prettier --write whiteboard.html tests` before opening a pull request so diffs stay readable. Keep the application self-contained: no runtime dependencies, CDN assets, bundler, or backend. The repository's tests and documentation are not needed to run it.
 
 Browser regression tests use Node.js, Playwright Core, and an installed Chrome browser. Install the test dependency, then run:
 
